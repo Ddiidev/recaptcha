@@ -1,5 +1,5 @@
 Module {
-	name: 're_captcha'
+	name: 'recaptcha'
 	description: 'validation reCaptcha'
 	version: '0.0.1'
 	license: 'MIT'
