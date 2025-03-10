@@ -2,10 +2,11 @@ module recaptcha
 
 @[noinit]
 pub struct RecaptchaResponse {
-	success      bool
-	score        f32
-	action       string
-	challenge_ts string
-	hostname     string
-	error_codes  []string
+pub mut:
+	success      bool     @[omitempty]
+	challenge_ts string   @[omitempty]
+	hostname     string   @[omitempty]
+	error_codes  []string @[json: 'error-codes'; omitempty]
+	action       string   @[omitempty]
+	cdata        string   @[omitempty]
 }

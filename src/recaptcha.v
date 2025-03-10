@@ -3,8 +3,6 @@ module recaptcha
 import json
 import net.http
 
-const url = 'https://www.google.com/recaptcha/api/siteverify'
-
 pub struct ParamsNew {
 pub:
 	token           string
@@ -12,12 +10,17 @@ pub:
 	expected_action ?string
 }
 
-pub fn new(param ParamsNew) !RecaptchaResponse {
-	data := 'secret=${param.secret_key}&response=${param.token}'
+const url = 'https://challenges.cloudflare.com/turnstile/v0/siteverify'
 
-	resp := http.post(url, data)!
+pub fn new(param ParamsNew) !RecaptchaResponse {
+	body := json.encode({
+		'secret':   param.secret_key
+		'response': param.token
+	})
+
+	resp := http.post_json(url, body)!
 	if resp.status_code != 200 {
-		return error('Falha na requisição ao Google reCAPTCHA')
+		return error('Falha na requisição ao Cloudlare CAPTCHA')
 	}
 
 	result := json.decode(RecaptchaResponse, resp.body)!
